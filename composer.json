@@ -1,5 +1,5 @@
 {
-  "name": "vnn/wordpress-rest-api-client",
+  "name": "lotharthesavior/wordpress-rest-api-client",
   "autoload": {
     "psr-4": {
       "Vnn\\WpApiClient\\": "src/"
