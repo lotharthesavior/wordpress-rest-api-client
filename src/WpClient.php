@@ -29,7 +29,7 @@ class WpClient
     /**
      * @var ClientInterface
      */
-    private $httpClient;
+    protected $httpClient;
 
     /**
      * @var AuthInterface
