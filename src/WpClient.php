@@ -34,17 +34,17 @@ class WpClient
     /**
      * @var AuthInterface
      */
-    private $credentials;
+    protected $credentials;
 
     /**
      * @var string
      */
-    private $wordpressUrl;
+    protected $wordpressUrl;
 
     /**
      * @var array
      */
-    private $endPoints = [];
+    protected $endPoints = [];
 
     /**
      * WpClient constructor.
