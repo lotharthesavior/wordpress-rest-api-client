@@ -18,6 +18,11 @@ abstract class AbstractWpEndpoint
     private $client;
 
     /**
+     * @var array
+     */
+    protected $headers = [];
+
+    /**
      * Users constructor.
      * @param WpClient $client
      */
@@ -27,6 +32,11 @@ abstract class AbstractWpEndpoint
     }
 
     abstract protected function getEndpoint();
+
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
 
     /**
      * @param int $id
@@ -43,8 +53,18 @@ abstract class AbstractWpEndpoint
         $request = new Request('GET', $uri);
         $response = $this->client->send($request);
 
-        if ($response->hasHeader('Content-Type')
-            && substr($response->getHeader('Content-Type')[0], 0, 16) === 'application/json') {
+        if (
+            $response->hasHeader('Content-Type')
+            && substr($response->getHeader('Content-Type')[0], 0, 16) === 'application/json'
+        ) {
+            $this->headers['totalItems'] = $response->getHeader('X-WP-Total');
+            if (is_array($this->headers['totalItems'])) {
+                $this->headers['totalItems'] = (int) current($this->headers['totalItems']);
+            }
+            $this->headers['totalPages'] = $response->getHeader('X-WP-TotalPages');
+            if (is_array($this->headers['totalPages'])) {
+                $this->headers['totalPages'] = (int) current($this->headers['totalPages']);
+            }
             return json_decode($response->getBody()->getContents(), true);
         }
 
